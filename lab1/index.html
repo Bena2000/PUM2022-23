@@ -1,2 +1,16 @@
 <a href="https://bena2000.github.io/PUM2022-23/Lab1/index.html">html</a>
 <a href="https://github.com/Bena2000/PUM2022-23/tree/master/lab1">kod</a>
+
+<br>
+
+
+<canvas id="circle" width="800" height="600" style="border:1px solid #000000;">
+Your browser does not support the HTML canvas tag.</canvas>
+
+<script>
+var c = document.getElementById("circle");
+var ctx = c.getContext("2d");
+ctx.beginPath();
+ctx.arc(400, 300, 200, 0, 2 * Math.PI);
+ctx.stroke();
+</script>
