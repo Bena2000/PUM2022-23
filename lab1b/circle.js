@@ -18,8 +18,7 @@ function ChangeColorGradient(){
     }else{
         green--;
     }
-        
-    console.log(green);
+    
     ctxGradient.fillStyle= `rgb(0, ${green}, ${255-green})`;
     ctxGradient.fill();
 
