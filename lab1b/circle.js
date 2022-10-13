@@ -1,17 +1,17 @@
 var c = document.getElementById("circle");
-var ctx = c.getContext("2d");
+var ctxGradient = c.getContext("2d");
 //shape code
-ctx.beginPath();
-ctx.arc(400, 300, 250, 0, 2 * Math.PI);
-ctx.fillStyle = "blue";
-ctx.fill();
-ctx.closePath();
+ctxGradient.beginPath();
+ctxGradient.arc(200, 150, 150, 0, 2 * Math.PI);
+ctxGradient.fillStyle = "blue";
+ctxGradient.fill();
+ctxGradient.closePath();
 
-setInterval(ChangeColor, 1);
+setInterval(ChangeColorGradient, 1);
 var green=0;
 var changeToGreen=1;
 
-function ChangeColor(){
+function ChangeColorGradient(){
     if(changeToGreen===1)
     {
         green++;
@@ -20,8 +20,8 @@ function ChangeColor(){
     }
         
     console.log(green);
-    ctx.fillStyle= `rgb(0, ${green}, ${255-green})`;
-    ctx.fill();
+    ctxGradient.fillStyle= `rgb(0, ${green}, ${255-green})`;
+    ctxGradient.fill();
 
     if(green<=0)
     {
