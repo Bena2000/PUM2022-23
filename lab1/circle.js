@@ -9,6 +9,18 @@ ctx.closePath();
 
 setInterval(ChangeColor, 1000);
 
+const element = document.getElementById("demo");
 function ChangeColor(){
-    ctx.fillStyle==="blue"?"green":"blue";
+    if(ctx.fillStyle==="#0000ff")
+    {
+        ctx.fillStyle="green";
+    }
+    else
+    {
+        ctx.fillStyle="blue";
+    }
+
+    // ctx.fillStyle==="blue"?"green":"blue";
+    ctx.fill();
 }
+	
