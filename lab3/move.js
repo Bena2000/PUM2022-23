@@ -14,7 +14,7 @@ let balls = [
     [platformX+platformWidth/2, c.height-platformHeight]
   ];
 var dx = 0;
-var dy = -4;
+var dy = -5;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -38,8 +38,7 @@ function keyDownHandler(e) {
 function onSpaceClick()
 {
     console.log("shoot");
-    // balls[i][0] = platformX+platformWidth/2;
-    //         balls[i][1] = c.height-platformHeight;
+    balls.push([platformX+platformWidth/2,c.height-platformHeight]);
 }
 
 function keyUpHandler(e) {
@@ -77,15 +76,19 @@ function drawPlayer() {
 
 function moveBalls()
 {
+    let indexesToRemove=[];
     for(var i = 0; i < balls.length; i++) {
         balls[i][0]+=dx;
         balls[i][1]+=dy;
 
         if(balls[i][0]>c.width || balls[i][0]<0 || balls[i][1]<0)
         {
-            balls[i][0] = platformX+platformWidth/2;
-            balls[i][1] = c.height-platformHeight;
+            indexesToRemove.push(i);
         }
+    }
+    for(var i = 0; i < indexesToRemove.length; i++)
+    {
+        balls=balls.slice(i);
     }
 }
 
