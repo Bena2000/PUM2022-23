@@ -3,7 +3,7 @@ var ctxGradient = c.getContext("2d");
 
 var x = c.width/2;
 var y = c.height-30;
-var dx = 0;
+var dx = 2;
 var dy = -2;
 
 function drawBall() {
@@ -15,10 +15,18 @@ function drawBall() {
 }
 
 function draw() {
+
+    if(x>c.width || x<0 || y<0)
+    {
+        x = c.width/2;
+        y = c.height-30;
+    }
     ctxGradient.clearRect(0, 0, c.width, c.height);
     drawBall();
     x += dx;
     y += dy;
+    console.log(x);
+    console.log(y);
 }
 
 setInterval(draw, 10);
