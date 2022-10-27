@@ -1,17 +1,18 @@
 var c = document.getElementById("circle");
 var ctxGradient = c.getContext("2d");
-
-var x = c.width/2;
-var y = c.height-30;
-var dx = 2;
-var dy = -2;
+//keyboard
 let rightPressed = false;
 let leftPressed = false;
-
+//platform
 var platformHeight = 10;
 var platformWidth = 75;
 var platformX = (c.width-platformWidth)/2;
 var keyboardMoveSpeed=5;
+//ball
+var x = platformX+platformWidth/2;
+var y = c.height-platformHeight;
+var dx = 2;
+var dy = -2;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -54,8 +55,8 @@ function draw() {
 
     if(x>c.width || x<0 || y<0)
     {
-        x = c.width/2;
-        y = c.height-30;
+        x = platformX+platformWidth/2;
+        y = c.height-platformHeight;
     }
 
     ctxGradient.clearRect(0, 0, c.width, c.height);
