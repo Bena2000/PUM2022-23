@@ -11,7 +11,28 @@ let leftPressed = false;
 var platformHeight = 10;
 var platformWidth = 75;
 var platformX = (c.width-platformWidth)/2;
-var keyboardMoveSpeed=2;
+var keyboardMoveSpeed=5;
+
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        rightPressed = true;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        leftPressed = true;
+    }
+}
+
+function keyUpHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        rightPressed = false;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        leftPressed = false;
+    }
+}
 
 function drawBall() {
     ctxGradient.beginPath();
@@ -42,6 +63,13 @@ function draw() {
     drawPlayer();
     x += dx;
     y += dy;
+
+    if(rightPressed)
+    {
+        platformX+=keyboardMoveSpeed;
+    }else if(leftPressed){
+        platformX-=keyboardMoveSpeed;
+    }
 }
 
 setInterval(draw, 10);
