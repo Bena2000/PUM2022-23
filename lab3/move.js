@@ -9,17 +9,12 @@ var platformHeight = 10;
 var platformWidth = 75;
 var platformX = (c.width-platformWidth)/2;
 var keyboardMoveSpeed=5;
-//ball
-var x = platformX+platformWidth/2;
-var y = c.height-platformHeight;
 
 let balls = [
-    [platformX+platformWidth/2, c.height-platformHeight],
-    [3, 4],
-    [5, 6]
+    [platformX+platformWidth/2, c.height-platformHeight]
   ];
-var dx = 2;
-var dy = -2;
+var dx = 0;
+var dy = -4;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -43,6 +38,8 @@ function keyDownHandler(e) {
 function onSpaceClick()
 {
     console.log("shoot");
+    // balls[i][0] = platformX+platformWidth/2;
+    //         balls[i][1] = c.height-platformHeight;
 }
 
 function keyUpHandler(e) {
@@ -53,6 +50,12 @@ function keyUpHandler(e) {
         leftPressed = false;
     }else if(e.key == " ") {
         spacePressed = false;
+    }
+}
+function drawBalls()
+{
+    for(var i = 0; i < balls.length; i++) {
+        drawBall(balls[i][0],balls[i][1]);
     }
 }
 
@@ -79,23 +82,16 @@ function moveBalls()
         balls[i][1]+=dy;
 
         if(balls[i][0]>c.width || balls[i][0]<0 || balls[i][1]<0)
-    {
-        balls[i][0] = platformX+platformWidth/2;
-        balls[i][1] = c.height-platformHeight;
-    }
+        {
+            balls[i][0] = platformX+platformWidth/2;
+            balls[i][1] = c.height-platformHeight;
+        }
     }
 }
 
 function draw() {
-
-    if(x>c.width || x<0 || y<0)
-    {
-        x = platformX+platformWidth/2;
-        y = c.height-platformHeight;
-    }
-
     ctxGradient.clearRect(0, 0, c.width, c.height);
-    drawBall(balls[0][0],balls[0][1]);
+    drawBalls();
     drawPlayer();
     moveBalls();
 
