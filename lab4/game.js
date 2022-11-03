@@ -41,7 +41,7 @@ function keyDownHandler(e) {
 function onSpaceClick()
 {
     console.log("shoot");
-    balls.push([width/2, 0]);
+    roadLines.push([width/2, 0]);
 }
 
 function keyUpHandler(e) {
@@ -87,6 +87,7 @@ function moveLines()
         if(roadLines[i][1]>height)
         {
             indexesToRemove.push(i);
+            console.log(roadLines[i][1]);
         }
     }
     for(var i = 0; i < indexesToRemove.length; i++)
