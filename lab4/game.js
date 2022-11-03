@@ -10,6 +10,9 @@ var platformWidth = 75;
 var platformX = (c.width-platformWidth)/2;
 var keyboardMoveSpeed=5;
 
+var width = 800;
+var height = 600;
+
 let balls = [
     [platformX+platformWidth/2, c.height-platformHeight]
   ];
@@ -91,20 +94,27 @@ function drawPlayer() {
 //         balls=balls.slice(i);
 //     }
 // }
+function drawGrass(x)
+{
+    ctxGradient.beginPath();
+    ctxGradient.rect(x, 0, 200, height);
+    ctxGradient.fillStyle = "#7CFC00";
+    ctxGradient.fill();
+    ctxGradient.closePath();
+}
+
+function drawPath()
+{
+    drawGrass(0);
+    drawGrass(width-200);
+}
 
 function draw() {
     ctxGradient.clearRect(0, 0, c.width, c.height);
     // drawBalls();
+    drawPath();
     drawPlayer();
     // moveBalls();
-
-    // ctxGradient
-
-    ctxGradient.translate(150, 75);
-    ctxGradient.rotate(20*Math.PI / 180);
-    ctxGradient.translate(-150, -75);
-    ctxGradient.fillStyle = 'red';
-    ctxGradient.fillRect(80, 60, 140, 30);
 
     if(rightPressed)
     {
