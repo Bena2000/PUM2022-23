@@ -51,20 +51,20 @@ function keyUpHandler(e) {
         spacePressed = false;
     }
 }
-function drawBalls()
-{
-    for(var i = 0; i < balls.length; i++) {
-        drawBall(balls[i][0],balls[i][1]);
-    }
-}
+// function drawBalls()
+// {
+//     for(var i = 0; i < balls.length; i++) {
+//         drawBall(balls[i][0],balls[i][1]);
+//     }
+// }
 
-function drawBall(x,y) {
-    ctxGradient.beginPath();
-    ctxGradient.arc(x, y, 10, 0, Math.PI*2);
-    ctxGradient.fillStyle = "#0095DD";
-    ctxGradient.fill();
-    ctxGradient.closePath();
-}
+// function drawBall(x,y) {
+//     ctxGradient.beginPath();
+//     ctxGradient.arc(x, y, 10, 0, Math.PI*2);
+//     ctxGradient.fillStyle = "#0095DD";
+//     ctxGradient.fill();
+//     ctxGradient.closePath();
+// }
 
 function drawPlayer() {
     ctxGradient.beginPath();
@@ -74,29 +74,37 @@ function drawPlayer() {
     ctxGradient.closePath();
 }
 
-function moveBalls()
-{
-    let indexesToRemove=[];
-    for(var i = 0; i < balls.length; i++) {
-        balls[i][0]+=dx;
-        balls[i][1]+=dy;
+// function moveBalls()
+// {
+//     let indexesToRemove=[];
+//     for(var i = 0; i < balls.length; i++) {
+//         balls[i][0]+=dx;
+//         balls[i][1]+=dy;
 
-        if(balls[i][0]>c.width || balls[i][0]<0 || balls[i][1]<0)
-        {
-            indexesToRemove.push(i);
-        }
-    }
-    for(var i = 0; i < indexesToRemove.length; i++)
-    {
-        balls=balls.slice(i);
-    }
-}
+//         if(balls[i][0]>c.width || balls[i][0]<0 || balls[i][1]<0)
+//         {
+//             indexesToRemove.push(i);
+//         }
+//     }
+//     for(var i = 0; i < indexesToRemove.length; i++)
+//     {
+//         balls=balls.slice(i);
+//     }
+// }
 
 function draw() {
     ctxGradient.clearRect(0, 0, c.width, c.height);
-    drawBalls();
+    // drawBalls();
     drawPlayer();
-    moveBalls();
+    // moveBalls();
+
+    // ctxGradient
+
+    ctxGradient.translate(150, 75);
+    ctxGradient.rotate(20*Math.PI / 180);
+    ctxGradient.translate(-150, -75);
+    ctxGradient.fillStyle = 'red';
+    ctxGradient.fillRect(80, 60, 140, 30);
 
     if(rightPressed)
     {
