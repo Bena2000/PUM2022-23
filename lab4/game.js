@@ -111,11 +111,10 @@ function drawPath()
 
 function draw() {
     ctxGradient.clearRect(0, 0, c.width, c.height);
-    // drawLines
-();
+    drawLines();
     drawPath();
     drawPlayer();
-    // moveLines();
+    moveLines();
 
     if(rightPressed)
     {
@@ -123,6 +122,7 @@ function draw() {
     }else if(leftPressed){
         carX-=keyboardMoveSpeed;
     }
+    console.log(roadLines.length);
 }
 
 setInterval(draw, 10);
