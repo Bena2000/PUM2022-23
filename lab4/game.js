@@ -13,8 +13,8 @@ var keyboardMoveSpeed=5;
 var width = 800;
 var height = 600;
 
-let balls = [
-    [carX+carWidth/2, c.height-carHeight]
+let roadLines = [
+    [width/2, 0]
   ];
 var dx = 0;
 var dy = -5;
@@ -41,7 +41,7 @@ function keyDownHandler(e) {
 function onSpaceClick()
 {
     console.log("shoot");
-    balls.push([carX+carWidth/2,c.height-carHeight]);
+    balls.push([width/2, 0]);
 }
 
 function keyUpHandler(e) {
@@ -54,20 +54,20 @@ function keyUpHandler(e) {
         spacePressed = false;
     }
 }
-// function drawBalls()
-// {
-//     for(var i = 0; i < balls.length; i++) {
-//         drawBall(balls[i][0],balls[i][1]);
-//     }
-// }
+function drawLines()
+{
+    for(var i = 0; i < roadLines.length; i++) {
+        drawLine(roadLines[i][0],roadLines[i][1]);
+    }
+}
 
-// function drawBall(x,y) {
-//     ctxGradient.beginPath();
-//     ctxGradient.arc(x, y, 10, 0, Math.PI*2);
-//     ctxGradient.fillStyle = "#0095DD";
-//     ctxGradient.fill();
-//     ctxGradient.closePath();
-// }
+function drawLine(x,y) {
+    ctxGradient.beginPath();
+    ctxGradient.rect(x, y, 10, 25);
+    ctxGradient.fillStyle = "#0095DD";
+    ctxGradient.fill();
+    ctxGradient.closePath();
+}
 
 function drawPlayer() {
     ctxGradient.beginPath();
@@ -77,23 +77,23 @@ function drawPlayer() {
     ctxGradient.closePath();
 }
 
-// function moveBalls()
-// {
-//     let indexesToRemove=[];
-//     for(var i = 0; i < balls.length; i++) {
-//         balls[i][0]+=dx;
-//         balls[i][1]+=dy;
+function moveLines()
+{
+    let indexesToRemove=[];
+    for(var i = 0; i < roadLines.length; i++) {
+        // balls[i][0]+=dx;
+        roadLines[i][1]-=dy;
 
-//         if(balls[i][0]>c.width || balls[i][0]<0 || balls[i][1]<0)
-//         {
-//             indexesToRemove.push(i);
-//         }
-//     }
-//     for(var i = 0; i < indexesToRemove.length; i++)
-//     {
-//         balls=balls.slice(i);
-//     }
-// }
+        if(roadLines[i][1]>height)
+        {
+            indexesToRemove.push(i);
+        }
+    }
+    for(var i = 0; i < indexesToRemove.length; i++)
+    {
+        roadLines=roadLines.slice(i);
+    }
+}
 function drawGrass(position,width)
 {
     ctxGradient.beginPath();
@@ -111,10 +111,11 @@ function drawPath()
 
 function draw() {
     ctxGradient.clearRect(0, 0, c.width, c.height);
-    // drawBalls();
+    // drawLines
+();
     drawPath();
     drawPlayer();
-    // moveBalls();
+    // moveLines();
 
     if(rightPressed)
     {
