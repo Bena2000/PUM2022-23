@@ -72,7 +72,7 @@ function keyUpHandler(e) {
 function drawPlayer() {
     ctxGradient.beginPath();
     ctxGradient.rect(platformX, c.height-platformHeight, platformWidth, platformHeight);
-    ctxGradient.fillStyle = "#0095DD";
+    ctxGradient.fillStyle = "#696969";
     ctxGradient.fill();
     ctxGradient.closePath();
 }
@@ -94,19 +94,19 @@ function drawPlayer() {
 //         balls=balls.slice(i);
 //     }
 // }
-function drawGrass(x)
+function drawGrass(position,width)
 {
     ctxGradient.beginPath();
-    ctxGradient.rect(x, 0, 200, height);
-    ctxGradient.fillStyle = "#7CFC00";
+    ctxGradient.rect(position, 0, width, height);
+    ctxGradient.fillStyle = "#006400";
     ctxGradient.fill();
     ctxGradient.closePath();
 }
 
 function drawPath()
 {
-    drawGrass(0);
-    drawGrass(width-200);
+    drawGrass(0,200);
+    drawGrass(width-200,200);
 }
 
 function draw() {
