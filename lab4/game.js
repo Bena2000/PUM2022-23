@@ -5,16 +5,16 @@ let rightPressed = false;
 let leftPressed = false;
 let spacePressed = false;
 //platform
-var platformHeight = 10;
-var platformWidth = 75;
-var platformX = (c.width-platformWidth)/2;
+var carHeight = 70;
+var carWidth = 75;
+var carX = (c.width-carWidth)/2;
 var keyboardMoveSpeed=5;
 
 var width = 800;
 var height = 600;
 
 let balls = [
-    [platformX+platformWidth/2, c.height-platformHeight]
+    [carX+carWidth/2, c.height-carHeight]
   ];
 var dx = 0;
 var dy = -5;
@@ -41,7 +41,7 @@ function keyDownHandler(e) {
 function onSpaceClick()
 {
     console.log("shoot");
-    balls.push([platformX+platformWidth/2,c.height-platformHeight]);
+    balls.push([carX+carWidth/2,c.height-carHeight]);
 }
 
 function keyUpHandler(e) {
@@ -71,7 +71,7 @@ function keyUpHandler(e) {
 
 function drawPlayer() {
     ctxGradient.beginPath();
-    ctxGradient.rect(platformX, c.height-platformHeight, platformWidth, platformHeight);
+    ctxGradient.rect(carX, c.height-carHeight, carWidth, carHeight);
     ctxGradient.fillStyle = "#696969";
     ctxGradient.fill();
     ctxGradient.closePath();
@@ -118,9 +118,9 @@ function draw() {
 
     if(rightPressed)
     {
-        platformX+=keyboardMoveSpeed;
+        carX+=keyboardMoveSpeed;
     }else if(leftPressed){
-        platformX-=keyboardMoveSpeed;
+        carX-=keyboardMoveSpeed;
     }
 }
 
