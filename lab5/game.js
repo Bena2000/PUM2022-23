@@ -68,7 +68,6 @@ function moveLines()
 {
     var removeFront=false;
     for(var i = 0; i < roadLines.length; i++) {
-        // balls[i][0]+=dx;
         roadLines[i][1]-=dy;
 
         if(roadLines[i][1]>height)
@@ -79,7 +78,7 @@ function moveLines()
 
     if(removeFront)
     {
-        roadLines=roadLines.splice(0, 1);
+        roadLines.shift();
     }
 }
 
@@ -93,7 +92,7 @@ function drawLines()
 function drawLine(x,y) {
     ctxGradient.beginPath();
     ctxGradient.rect(x, y, 10, 25);
-    ctxGradient.fillStyle = "#0095DD";
+    ctxGradient.fillStyle = "#000000";
     ctxGradient.fill();
     ctxGradient.closePath();
 }
