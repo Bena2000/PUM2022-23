@@ -18,6 +18,7 @@ let roadLines = [
   ];
 var dx = 0;
 var dy = -5;
+var playerSpeed = 5;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -67,7 +68,7 @@ function moveLines()
 {
     var removeFront=false;
     for(var i = 0; i < roadLines.length; i++) {
-        roadLines[i][1]-=dy;
+        roadLines[i][1]+=playerSpeed;
 
         if(roadLines[i][1]>height)
         {
