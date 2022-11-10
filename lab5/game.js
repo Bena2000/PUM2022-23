@@ -8,16 +8,23 @@ let spacePressed = false;
 var carHeight = 70;
 var carWidth = 75;
 var carX = (c.width-carWidth)/2;
-var keyboardMoveSpeed=5;
+var keyboardMoveSpeed=6;
 
-var width = 800;
-var height = 600;
+var canvasWidth = 800;
+var canvasHeight = 600;
+
+var roadWidth = 400;
+
+var obstacleWidth = 60;
+var obstacleHeight = 60;
 
 let roadLines = [
-    [width/2, 0]
+    [canvasWidth/2, 0]
   ];
 
-  let balls = [];
+let balls = [];
+let obstacles = [];
+
 var ballX = 0;
 var ballY = -7;
 
@@ -25,6 +32,10 @@ var playerSpeed = 5;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
+
+function randomIntBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
 
 function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
@@ -62,7 +73,7 @@ function addLine()
 {
     if(roadLines.length>0 && roadLines[0][1]%100===0)
     {
-        roadLines.push([width/2, 0]);
+        roadLines.push([canvasWidth/2, 0]);
     }
 }
 
@@ -72,7 +83,7 @@ function moveLines()
     for(var i = 0; i < roadLines.length; i++) {
         roadLines[i][1]+=playerSpeed;
 
-        if(roadLines[i][1]>height)
+        if(roadLines[i][1]>canvasHeight)
         {
             removeFront = true;
         }
@@ -100,6 +111,49 @@ function moveBalls()
     {
         balls.shift();
     }
+}
+
+function moveObstacles()
+{
+    var removeFront=false;
+    for(var i = 0; i < obstacles.length; i++) {
+        obstacles[i][1]+=playerSpeed;
+
+        if(obstacles[i][1]>canvasHeight)
+        {
+            removeFront = true;
+        }
+    }
+    if(removeFront)
+    {
+        obstacles.shift();
+    }
+}
+
+function drawObstacles()
+{
+    for(var i = 0; i < obstacles.length; i++) {
+        drawObstacle(obstacles[i][0],obstacles[i][1]);
+    }
+}
+
+function drawObstacle(x,y) {
+    ctxGradient.beginPath();
+    ctxGradient.rect(x, y, obstacleWidth, obstacleHeight);
+    ctxGradient.fillStyle = "#8B4513";
+    ctxGradient.fill();
+    ctxGradient.closePath();
+}
+
+function addObstacle()
+{
+    var spaceForGrass = (canvasWidth-roadWidth)/2;
+    var time = randomIntBetween(1,2);
+    var xPosition = randomIntBetween(spaceForGrass,canvasWidth-spaceForGrass);
+
+    obstacles.push([xPosition, 0]);
+
+    setTimeout(addObstacle,time*1000);
 }
 
 function drawBalls()
@@ -143,7 +197,7 @@ function drawPlayer() {
 function drawGrass(position,width)
 {
     ctxGradient.beginPath();
-    ctxGradient.rect(position, 0, width, height);
+    ctxGradient.rect(position, 0, width, canvasHeight);
     ctxGradient.fillStyle = "#006400";
     ctxGradient.fill();
     ctxGradient.closePath();
@@ -152,7 +206,7 @@ function drawGrass(position,width)
 function drawAsphalt(position,width)
 {
     ctxGradient.beginPath();
-    ctxGradient.rect(position, 0, width, height);
+    ctxGradient.rect(position, 0, width, canvasHeight);
     ctxGradient.fillStyle = "#696969";
     ctxGradient.fill();
     ctxGradient.closePath();
@@ -160,9 +214,10 @@ function drawAsphalt(position,width)
 
 function drawPath()
 {
-    drawGrass(0,200);
-    drawAsphalt(200,width-200-200);
-    drawGrass(width-200,200);
+    var spaceForGrass = (canvasWidth-roadWidth)/2;
+    drawGrass(0,spaceForGrass);
+    drawAsphalt(spaceForGrass,roadWidth);
+    drawGrass(canvasWidth-spaceForGrass,spaceForGrass);
 }
 
 function draw() {
@@ -170,11 +225,13 @@ function draw() {
     //drawing
     drawPath();
     drawLines();
+    drawObstacles();
     drawPlayer();
     drawBalls();
     //moving
     moveLines();
     moveBalls();
+    moveObstacles();
     //adding
     addLine();
 
@@ -187,3 +244,4 @@ function draw() {
 }
 
 setInterval(draw, 10);
+setTimeout(addObstacle,3000);
