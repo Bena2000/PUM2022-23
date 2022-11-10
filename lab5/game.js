@@ -16,8 +16,13 @@ var height = 600;
 let roadLines = [
     [width/2, 0]
   ];
-var dx = 0;
-var dy = -5;
+
+  let balls = [
+    [carX+carWidth/2, c.height-carHeight]
+  ];
+var ballX = 0;
+var ballY = -5;
+
 var playerSpeed = 5;
 
 document.addEventListener("keydown", keyDownHandler, false);
@@ -82,6 +87,39 @@ function moveLines()
     }
 }
 
+function moveBalls()
+{
+    let indexesToRemove=[];
+    for(var i = 0; i < balls.length; i++) {
+        balls[i][0]+=ballX;
+        balls[i][1]+=ballY;
+
+        if(balls[i][0]>c.width || balls[i][0]<0 || balls[i][1]<0)
+        {
+            indexesToRemove.push(i);
+        }
+    }
+    for(var i = 0; i < indexesToRemove.length; i++)
+    {
+        balls.slice(i);
+    }
+}
+
+function drawBalls()
+{
+    for(var i = 0; i < balls.length; i++) {
+        drawBall(balls[i][0],balls[i][1]);
+    }
+}
+
+function drawBall(x,y) {
+    ctxGradient.beginPath();
+    ctxGradient.arc(x, y, 10, 0, Math.PI*2);
+    ctxGradient.fillStyle = "#0095DD";
+    ctxGradient.fill();
+    ctxGradient.closePath();
+}
+
 function drawLines()
 {
     for(var i = 0; i < roadLines.length; i++) {
@@ -135,7 +173,9 @@ function draw() {
     drawPath();
     drawLines();
     drawPlayer();
+    drawBalls();
     moveLines();
+    moveBalls();
     addLines();
 
     if(rightPressed)
