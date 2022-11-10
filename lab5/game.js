@@ -41,7 +41,7 @@ function keyDownHandler(e) {
 function onSpaceClick()
 {
     console.log("shoot");
-    roadLines.push([width/2, 0]);
+    // roadLines.push([width/2, 0]);
 }
 
 function keyUpHandler(e) {
@@ -80,20 +80,22 @@ function drawPlayer() {
 function moveLines()
 {
     let indexesToRemove=[];
+    var removeFront=false;
     for(var i = 0; i < roadLines.length; i++) {
         // balls[i][0]+=dx;
         roadLines[i][1]-=dy;
 
         if(roadLines[i][1]>height)
         {
-            indexesToRemove.push(i);
-            console.log(roadLines[i][1]);
+            removeFront = true;
         }
     }
-    for(var i = 0; i < indexesToRemove.length; i++)
+
+    if(removeFront)
     {
-        roadLines=roadLines.slice(i);
+        roadLines=roadLines.splice(1, 1);
     }
+    console.log(roadLines.length);
 }
 function drawGrass(position,width)
 {
@@ -123,7 +125,6 @@ function draw() {
     }else if(leftPressed){
         carX-=keyboardMoveSpeed;
     }
-    console.log(roadLines.length);
 }
 
 setInterval(draw, 10);
