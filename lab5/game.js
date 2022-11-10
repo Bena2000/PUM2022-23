@@ -17,11 +17,9 @@ let roadLines = [
     [width/2, 0]
   ];
 
-  let balls = [
-    [carX+carWidth/2, c.height-carHeight]
-  ];
+  let balls = [];
 var ballX = 0;
-var ballY = -5;
+var ballY = -7;
 
 var playerSpeed = 5;
 
@@ -60,7 +58,7 @@ function keyUpHandler(e) {
     }
 }
 
-function addLines()
+function addLine()
 {
     if(roadLines.length>0 && roadLines[0][1]%100===0)
     {
@@ -169,13 +167,16 @@ function drawPath()
 
 function draw() {
     ctxGradient.clearRect(0, 0, c.width, c.height);
+    //drawing
     drawPath();
     drawLines();
     drawPlayer();
     drawBalls();
+    //moving
     moveLines();
     moveBalls();
-    addLines();
+    //adding
+    addLine();
 
     if(rightPressed)
     {
