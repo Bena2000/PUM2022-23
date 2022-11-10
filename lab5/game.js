@@ -41,7 +41,6 @@ function keyDownHandler(e) {
 function onSpaceClick()
 {
     console.log("shoot");
-    // roadLines.push([width/2, 0]);
 }
 
 function keyUpHandler(e) {
@@ -92,7 +91,7 @@ function drawLines()
 function drawLine(x,y) {
     ctxGradient.beginPath();
     ctxGradient.rect(x, y, 10, 25);
-    ctxGradient.fillStyle = "#000000";
+    ctxGradient.fillStyle = "#FFFFFF";
     ctxGradient.fill();
     ctxGradient.closePath();
 }
@@ -100,7 +99,7 @@ function drawLine(x,y) {
 function drawPlayer() {
     ctxGradient.beginPath();
     ctxGradient.rect(carX, c.height-carHeight, carWidth, carHeight);
-    ctxGradient.fillStyle = "#696969";
+    ctxGradient.fillStyle = "#0095DD";
     ctxGradient.fill();
     ctxGradient.closePath();
 }
@@ -114,16 +113,26 @@ function drawGrass(position,width)
     ctxGradient.closePath();
 }
 
+function drawAsphalt(position,width)
+{
+    ctxGradient.beginPath();
+    ctxGradient.rect(position, 0, width, height);
+    ctxGradient.fillStyle = "#696969";
+    ctxGradient.fill();
+    ctxGradient.closePath();
+}
+
 function drawPath()
 {
     drawGrass(0,200);
+    drawAsphalt(200,width-200-200);
     drawGrass(width-200,200);
 }
 
 function draw() {
     ctxGradient.clearRect(0, 0, c.width, c.height);
-    drawLines();
     drawPath();
+    drawLines();
     drawPlayer();
     moveLines();
     addLines();
