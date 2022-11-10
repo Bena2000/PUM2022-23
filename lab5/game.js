@@ -46,7 +46,7 @@ function keyDownHandler(e) {
 
 function onSpaceClick()
 {
-    console.log("shoot");
+    balls.push([carX+carWidth/2, c.height-carHeight]);
 }
 
 function keyUpHandler(e) {
@@ -65,7 +65,6 @@ function addLines()
     if(roadLines.length>0 && roadLines[0][1]%100===0)
     {
         roadLines.push([width/2, 0]);
-        console.log("added line");
     }
 }
 
@@ -89,19 +88,19 @@ function moveLines()
 
 function moveBalls()
 {
-    let indexesToRemove=[];
+    var removeFront=false;
     for(var i = 0; i < balls.length; i++) {
         balls[i][0]+=ballX;
         balls[i][1]+=ballY;
 
         if(balls[i][0]>c.width || balls[i][0]<0 || balls[i][1]<0)
         {
-            indexesToRemove.push(i);
+            removeFront = true;
         }
     }
-    for(var i = 0; i < indexesToRemove.length; i++)
+    if(removeFront)
     {
-        balls.slice(i);
+        balls.shift();
     }
 }
 
