@@ -54,6 +54,35 @@ function keyUpHandler(e) {
         spacePressed = false;
     }
 }
+
+function addLines()
+{
+    if(roadLines.length>0 && roadLines[0][1]%100===0)
+    {
+        roadLines.push([width/2, 0]);
+        console.log("added line");
+    }
+}
+
+function moveLines()
+{
+    var removeFront=false;
+    for(var i = 0; i < roadLines.length; i++) {
+        // balls[i][0]+=dx;
+        roadLines[i][1]-=dy;
+
+        if(roadLines[i][1]>height)
+        {
+            removeFront = true;
+        }
+    }
+
+    if(removeFront)
+    {
+        roadLines=roadLines.splice(0, 1);
+    }
+}
+
 function drawLines()
 {
     for(var i = 0; i < roadLines.length; i++) {
@@ -77,26 +106,6 @@ function drawPlayer() {
     ctxGradient.closePath();
 }
 
-function moveLines()
-{
-    let indexesToRemove=[];
-    var removeFront=false;
-    for(var i = 0; i < roadLines.length; i++) {
-        // balls[i][0]+=dx;
-        roadLines[i][1]-=dy;
-
-        if(roadLines[i][1]>height)
-        {
-            removeFront = true;
-        }
-    }
-
-    if(removeFront)
-    {
-        roadLines=roadLines.splice(1, 1);
-    }
-    console.log(roadLines.length);
-}
 function drawGrass(position,width)
 {
     ctxGradient.beginPath();
@@ -118,6 +127,7 @@ function draw() {
     drawPath();
     drawPlayer();
     moveLines();
+    addLines();
 
     if(rightPressed)
     {
