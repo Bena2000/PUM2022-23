@@ -151,7 +151,8 @@ function addObstacle()
     var time = randomIntBetween(1,2);
     var xPosition = randomIntBetween(spaceForGrass,canvasWidth-spaceForGrass);
 
-    obstacles.push([xPosition, 0]);
+    if(!document.hidden)
+        obstacles.push([xPosition, 0]);
 
     setTimeout(addObstacle,time*1000);
 }
@@ -221,6 +222,8 @@ function drawPath()
 }
 
 function draw() {
+    if(document.hidden)
+        return;
     ctxGradient.clearRect(0, 0, c.width, c.height);
     //drawing
     drawPath();
