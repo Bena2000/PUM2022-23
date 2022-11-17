@@ -25,6 +25,13 @@ let roadLines = [
     [canvasWidth/2, 0]
   ];
 
+let leftLines = [
+    [canvasWidth/2-roadWidth/2, 0]
+  ];
+let rightLines = [
+    [canvasWidth/2+roadWidth/2, 0]
+  ];
+
 let balls = [];
 let obstacles = [];
 
@@ -90,23 +97,32 @@ function addLine()
     {
         roadLines.push([canvasWidth/2, 0]);
     }
+
+    if(leftLines.length>0 && leftLines[0][1]%100===0)
+    {
+        leftLines.push([canvasWidth/2-roadWidth/2, 0]);
+    }
+
+    if(rightLines.length>0 && rightLines[0][1]%100===0)
+    {
+        rightLines.push([canvasWidth/2+roadWidth/2, 0]);
+    }
 }
 
-function moveLines()
+function moveLines(collection)
 {
     var removeFront=false;
-    for(var i = 0; i < roadLines.length; i++) {
-        roadLines[i][1]+=playerSpeed;
+    for(var i = 0; i < collection.length; i++) {
+        collection[i][1]+=playerSpeed;
 
-        if(roadLines[i][1]>canvasHeight)
+        if(collection[i][1]>canvasHeight)
         {
             removeFront = true;
         }
     }
-
     if(removeFront)
     {
-        roadLines.shift();
+        collection.shift();
     }
 }
 
@@ -208,6 +224,8 @@ function drawLines()
 {
     for(var i = 0; i < roadLines.length; i++) {
         drawLine(roadLines[i][0],roadLines[i][1]);
+        drawLine(leftLines[i][0],leftLines[i][1]);
+        drawLine(rightLines[i][0],rightLines[i][1]);
     }
 }
 
@@ -283,7 +301,7 @@ function draw() {
     drawPlayer();
     drawBalls();
     //moving
-    moveLines();
+    moveLines(roadLines);
     moveObstacles();
     movePlayer();
     moveBalls();
