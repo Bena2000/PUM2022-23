@@ -1,6 +1,8 @@
 var c = document.getElementById("circle");
 var ctxGradient = c.getContext("2d");
 //keyboard
+let upPressed = false;
+let downPressed = false;
 let rightPressed = false;
 let leftPressed = false;
 let spacePressed = false;
@@ -43,7 +45,13 @@ function keyDownHandler(e) {
     }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         leftPressed = true;
-    }else if(e.key == " ")
+    }else if(e.key == "Up" || e.key == "ArrowUp")
+    {
+        upPressed=true;
+    }else if(e.key == "Down" || e.key == "ArrowDown")
+    {
+        downPressed=true;
+    }if(e.key == " ")
     {
         if(spacePressed==false)
         {
@@ -64,6 +72,12 @@ function keyUpHandler(e) {
     }
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         leftPressed = false;
+    }else if(e.key == "Up" || e.key == "ArrowUp")
+    {
+        upPressed=false;
+    }else if(e.key == "Down" || e.key == "ArrowDown")
+    {
+        downPressed=false;
     }else if(e.key == " ") {
         spacePressed = false;
     }
