@@ -302,6 +302,8 @@ function draw() {
     drawBalls();
     //moving
     moveLines(roadLines);
+    moveLines(leftLines);
+    moveLines(rightLines);
     moveObstacles();
     movePlayer();
     moveBalls();
