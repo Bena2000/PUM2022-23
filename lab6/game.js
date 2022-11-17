@@ -253,6 +253,13 @@ function drawPath()
     drawGrass(canvasWidth-spaceForGrass,spaceForGrass);
 }
 
+function detectObstaclesAndBallsCollisions()
+{
+    for(var i = 0; i < obstacles.length; i++) {
+        
+    }
+}
+
 function draw() {
     if(document.hidden)
         return;
