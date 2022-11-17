@@ -10,6 +10,7 @@ let spacePressed = false;
 var carHeight = 70;
 var carWidth = 75;
 var carX = (c.width-carWidth)/2;
+var carY = c.height-carHeight;
 var keyboardMoveSpeed=6;
 
 var canvasWidth = 800;
@@ -144,6 +145,23 @@ function moveObstacles()
     }
 }
 
+function movePlayer()
+{
+    if(rightPressed)
+    {
+        carX+=keyboardMoveSpeed;
+    }else if(leftPressed){
+        carX-=keyboardMoveSpeed;
+    }
+    
+    if(upPressed)
+    {
+        carY-=keyboardMoveSpeed;
+    }else if(downPressed){
+        carY+=keyboardMoveSpeed;
+    }
+}
+
 function drawObstacles()
 {
     for(var i = 0; i < obstacles.length; i++) {
@@ -203,7 +221,7 @@ function drawLine(x,y) {
 
 function drawPlayer() {
     ctxGradient.beginPath();
-    ctxGradient.rect(carX, c.height-carHeight, carWidth, carHeight);
+    ctxGradient.rect(carX,carY, carWidth, carHeight);
     ctxGradient.fillStyle = "#0095DD";
     ctxGradient.fill();
     ctxGradient.closePath();
@@ -247,17 +265,11 @@ function draw() {
     drawBalls();
     //moving
     moveLines();
-    moveBalls();
     moveObstacles();
+    movePlayer();
+    moveBalls();
     //adding
     addLine();
-
-    if(rightPressed)
-    {
-        carX+=keyboardMoveSpeed;
-    }else if(leftPressed){
-        carX-=keyboardMoveSpeed;
-    }
 }
 
 setInterval(draw, 10);
