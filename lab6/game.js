@@ -223,16 +223,17 @@ function drawBall(x,y) {
 function drawLines()
 {
     for(var i = 0; i < roadLines.length; i++) {
-        drawLine(roadLines[i][0],roadLines[i][1]);
-        drawLine(leftLines[i][0],leftLines[i][1]);
-        drawLine(rightLines[i][0],rightLines[i][1]);
+        drawLine(roadLines[i][0],roadLines[i][1],10,25,"#FFFFFF");
+        drawLine(leftLines[i][0],leftLines[i][1],10,25,"#FFFFFF");
+        drawLine(rightLines[i][0],rightLines[i][1],10,25,"#FFFFFF");
     }
+
 }
 
-function drawLine(x,y) {
+function drawLine(x,y,sizeX,sizeY,color) {
     ctxGradient.beginPath();
-    ctxGradient.rect(x, y, 10, 25);
-    ctxGradient.fillStyle = "#FFFFFF";
+    ctxGradient.rect(x, y, sizeX, sizeY);
+    ctxGradient.fillStyle = color;
     ctxGradient.fill();
     ctxGradient.closePath();
 }
@@ -245,30 +246,12 @@ function drawPlayer() {
     ctxGradient.closePath();
 }
 
-function drawGrass(position,width)
-{
-    ctxGradient.beginPath();
-    ctxGradient.rect(position, 0, width, canvasHeight);
-    ctxGradient.fillStyle = "#006400";
-    ctxGradient.fill();
-    ctxGradient.closePath();
-}
-
-function drawAsphalt(position,width)
-{
-    ctxGradient.beginPath();
-    ctxGradient.rect(position, 0, width, canvasHeight);
-    ctxGradient.fillStyle = "#696969";
-    ctxGradient.fill();
-    ctxGradient.closePath();
-}
-
 function drawPath()
 {
     var spaceForGrass = (canvasWidth-roadWidth)/2;
-    drawGrass(0,spaceForGrass);
-    drawAsphalt(spaceForGrass,roadWidth);
-    drawGrass(canvasWidth-spaceForGrass,spaceForGrass);
+    drawLine(0,0,spaceForGrass,canvasHeight,"#006400");//grass
+    drawLine(spaceForGrass,0,roadWidth,canvasHeight,"#696969");//asphalt
+    drawLine(canvasWidth-spaceForGrass,0,spaceForGrass,canvasHeight,"#006400");//grass
 }
 
 function detectObstaclesAndBallsCollisions()
