@@ -256,8 +256,20 @@ function drawPath()
 function detectObstaclesAndBallsCollisions()
 {
     for(var i = 0; i < obstacles.length; i++) {
-        
+        var centerX = obstacles[i][0]+obstacleWidth/2;
+        var centerY = obstacles[i][1]-obstacleHeight/2;
+        // for(var i = 0; i < balls.length; i++) {
+        //     if(dist(centerX, centerY, balls[i][0], balls[i][1])<obstacleWidth)
+        //     {
+        //         console.log("DUP");
+        //     }
+        // }
     }
+}
+
+function dist(x1,y1,x2,y2)
+{
+    return Math.pow(Math.pow(x2 - x1, 2)+ Math.pow(y2 - y1, 2),0.5);
 }
 
 function draw() {
@@ -277,6 +289,7 @@ function draw() {
     moveBalls();
     //adding
     addLine();
+    detectObstaclesAndBallsCollisions();
 }
 
 setInterval(draw, 10);
