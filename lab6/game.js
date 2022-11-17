@@ -222,12 +222,14 @@ function drawBall(x,y) {
 
 function drawLines()
 {
+    drawLine(canvasWidth/2-roadWidth/2,0,10,canvasHeight,"#ff0000");
+    drawLine(canvasWidth/2+roadWidth/2,0,10 ,canvasHeight,"#ff0000");
+
     for(var i = 0; i < roadLines.length; i++) {
         drawLine(roadLines[i][0],roadLines[i][1],10,25,"#FFFFFF");
         drawLine(leftLines[i][0],leftLines[i][1],10,25,"#FFFFFF");
         drawLine(rightLines[i][0],rightLines[i][1],10,25,"#FFFFFF");
     }
-
 }
 
 function drawLine(x,y,sizeX,sizeY,color) {
