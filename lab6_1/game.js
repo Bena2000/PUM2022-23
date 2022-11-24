@@ -315,6 +315,16 @@ function detectObstaclesAndBallsCollisions()
     }
 }
 
+function speedometer()
+{
+    ctxGradient.beginPath();
+    ctxGradient.font = "30px Comic Sans MS";
+    ctxGradient.fillStyle = "red";
+    ctxGradient.textAlign = "center";
+    ctxGradient.fillText("Speed: "+playerSpeed.toString(), 100, 50);
+    ctxGradient.closePath();
+}
+
 function dist(x1,y1,x2,y2)
 {
     return Math.pow(Math.pow(x2 - x1, 2)+ Math.pow(y2 - y1, 2),0.5);
@@ -340,6 +350,7 @@ function draw() {
     //adding
     addLine();
     detectObstaclesAndBallsCollisions();
+    speedometer();
     console.log(playerSpeed);
 }
 
