@@ -6,6 +6,8 @@ let downPressed = false;
 let rightPressed = false;
 let leftPressed = false;
 let spacePressed = false;
+let aPressed = false;
+let zPressed = false;
 //platform
 var carHeight = 70;
 var carWidth = 75;
@@ -16,12 +18,15 @@ var keyboardMoveSpeed=6;
 var canvasWidth = 800;
 var canvasHeight = 600;
 
+var linesDistance = 50;
+
 var roadWidth = 400;
 
 var obstacleWidth = 60;
 var obstacleHeight = 60;
 
 let roadLines = [
+    [canvasWidth/2, linesDistance],
     [canvasWidth/2, 0]
   ];
 
@@ -38,7 +43,7 @@ let obstacles = [];
 var ballX = 0;
 var ballY = -7;
 
-var playerSpeed = 5;
+var playerSpeed = 2;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -59,13 +64,29 @@ function keyDownHandler(e) {
     }else if(e.key == "Down" || e.key == "ArrowDown")
     {
         downPressed=true;
-    }if(e.key == " ")
+    }
+    if(e.key == " ")
     {
         if(spacePressed==false)
         {
             onSpaceClick();
         }
         spacePressed=true;
+    }
+    if(e.key == "a")
+    {
+        if(aPressed==false)
+        {
+            onAClick();
+        }
+        aPressed==true;
+    }else if(e.key == "z")
+    {
+        if(zPressed==false)
+        {
+            onZClick();
+        }
+        zPressed==true;
     }
 }
 
@@ -74,26 +95,39 @@ function onSpaceClick()
     balls.push([carX+carWidth/2, c.height-carHeight]);
 }
 
+function onAClick()
+{
+    playerSpeed+=1;
+}
+
+function onZClick()
+{
+    playerSpeed-=1;
+}
+
 function keyUpHandler(e) {
-    if(e.key == "Right" || e.key == "ArrowRight") {
+    if(e.key == "Right" || e.key == "ArrowRight"){
         rightPressed = false;
     }
-    else if(e.key == "Left" || e.key == "ArrowLeft") {
+    else if(e.key == "Left" || e.key == "ArrowLeft"){
         leftPressed = false;
-    }else if(e.key == "Up" || e.key == "ArrowUp")
-    {
+    }else if(e.key == "Up" || e.key == "ArrowUp"){
         upPressed=false;
-    }else if(e.key == "Down" || e.key == "ArrowDown")
-    {
+    }else if(e.key == "Down" || e.key == "ArrowDown"){
         downPressed=false;
-    }else if(e.key == " ") {
+    }else if(e.key == " "){
         spacePressed = false;
+    }else if(e.key == "a"){
+        aPressed==false;
+    }else if(e.key == "z"){
+        zPressed==false;
     }
 }
 
 function addLine()
 {
-    if(roadLines.length>0 && roadLines[0][1]%100===0)
+    console.log(roadLines[0][1]-roadLines[1][1]);
+    if(roadLines.length>2 && roadLines[0][1]-roadLines[1][1]>linesDistance)
     {
         roadLines.push([canvasWidth/2, 0]);
     }
@@ -227,8 +261,11 @@ function drawLines()
 
     for(var i = 0; i < roadLines.length; i++) {
         drawLine(roadLines[i][0],roadLines[i][1],10,25,"#FFFFFF");
-        drawLine(leftLines[i][0],leftLines[i][1],10,25,"#FFFFFF");
-        drawLine(rightLines[i][0],rightLines[i][1],10,25,"#FFFFFF");
+    }
+
+    for(var i = 0; i < leftLines.length; i++) {
+    drawLine(leftLines[i][0],leftLines[i][1],10,25,"#FFFFFF");
+    drawLine(rightLines[i][0],rightLines[i][1],10,25,"#FFFFFF");
     }
 }
 
