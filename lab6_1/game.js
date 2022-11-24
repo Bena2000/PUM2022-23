@@ -352,7 +352,7 @@ function draw() {
     addLine();
     detectObstaclesAndBallsCollisions();
     speedometer();
-    console.log(playerSpeed);
+    
     if(counterToPlaceObstacle>7)
     {
         addObstacle();
