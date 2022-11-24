@@ -48,6 +48,8 @@ var playerSpeed = 5;
 var playerMaxSpeed = 10;
 var playerMinSpeed = 1;
 
+var counterToPlaceObstacle=0;
+
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
@@ -138,6 +140,7 @@ function addLine()
     if(roadLines.length>1 && roadLines[roadLines.length-1][1]>=roadLinesDistance)
     {
         roadLines.push([canvasWidth/2, 0]);
+        counterToPlaceObstacle+=1;
     }
 
     if(leftLines.length>0 && leftLines[leftLines.length-1][1]>=leftRightLinesDistance)
@@ -243,8 +246,6 @@ function addObstacle()
 
     if(!document.hidden)
         obstacles.push([xPosition, 0]);
-
-    setTimeout(addObstacle,time*1000);
 }
 
 function drawBalls()
@@ -352,7 +353,11 @@ function draw() {
     detectObstaclesAndBallsCollisions();
     speedometer();
     console.log(playerSpeed);
+    if(counterToPlaceObstacle>7)
+    {
+        addObstacle();
+        counterToPlaceObstacle=0;
+    }
 }
 
 setInterval(draw, 10);
-setTimeout(addObstacle,3000);
