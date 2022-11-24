@@ -101,13 +101,17 @@ function onSpaceClick()
 function onAClick()
 {
     if(playerSpeed<playerMaxSpeed)
+    {
         playerSpeed+=1;
+    }
 }
 
 function onZClick()
 {
     if(playerSpeed>playerMinSpeed)
+    {
         playerSpeed-=1;
+    }
 }
 
 function keyUpHandler(e) {
