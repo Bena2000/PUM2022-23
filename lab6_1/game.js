@@ -18,7 +18,8 @@ var keyboardMoveSpeed=6;
 var canvasWidth = 800;
 var canvasHeight = 600;
 
-var linesDistance = 50;
+var roadLinesDistance = 100;
+var leftRightLinesDistance = 150;
 
 var roadWidth = 400;
 
@@ -26,7 +27,7 @@ var obstacleWidth = 60;
 var obstacleHeight = 60;
 
 let roadLines = [
-    [canvasWidth/2, linesDistance],
+    [canvasWidth/2, roadLinesDistance],
     [canvasWidth/2, 0]
   ];
 
@@ -43,7 +44,9 @@ let obstacles = [];
 var ballX = 0;
 var ballY = -7;
 
-var playerSpeed = 2;
+var playerSpeed = 5;
+var playerMaxSpeed = 10;
+var playerMinSpeed = 1;
 
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -97,12 +100,14 @@ function onSpaceClick()
 
 function onAClick()
 {
-    playerSpeed+=1;
+    if(playerSpeed<playerMaxSpeed)
+        playerSpeed+=1;
 }
 
 function onZClick()
 {
-    playerSpeed-=1;
+    if(playerSpeed>playerMinSpeed)
+        playerSpeed-=1;
 }
 
 function keyUpHandler(e) {
@@ -126,18 +131,17 @@ function keyUpHandler(e) {
 
 function addLine()
 {
-    console.log(roadLines[0][1]-roadLines[1][1]);
-    if(roadLines.length>2 && roadLines[0][1]-roadLines[1][1]>linesDistance)
+    if(roadLines.length>1 && roadLines[roadLines.length-1][1]>=roadLinesDistance)
     {
         roadLines.push([canvasWidth/2, 0]);
     }
 
-    if(leftLines.length>0 && leftLines[0][1]%100===0)
+    if(leftLines.length>0 && leftLines[leftLines.length-1][1]>=leftRightLinesDistance)
     {
         leftLines.push([canvasWidth/2-roadWidth/2, 0]);
     }
 
-    if(rightLines.length>0 && rightLines[0][1]%100===0)
+    if(rightLines.length>0 && rightLines[rightLines.length-1][1]>=leftRightLinesDistance)
     {
         rightLines.push([canvasWidth/2+roadWidth/2, 0]);
     }
@@ -264,8 +268,8 @@ function drawLines()
     }
 
     for(var i = 0; i < leftLines.length; i++) {
-    drawLine(leftLines[i][0],leftLines[i][1],10,25,"#FFFFFF");
-    drawLine(rightLines[i][0],rightLines[i][1],10,25,"#FFFFFF");
+        drawLine(leftLines[i][0],leftLines[i][1],10,leftRightLinesDistance/2,"#FFFFFF");
+        drawLine(rightLines[i][0],rightLines[i][1],10,leftRightLinesDistance/2,"#FFFFFF");
     }
 }
 
@@ -332,6 +336,7 @@ function draw() {
     //adding
     addLine();
     detectObstaclesAndBallsCollisions();
+    console.log(playerSpeed);
 }
 
 setInterval(draw, 10);
