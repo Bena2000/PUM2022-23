@@ -6,6 +6,7 @@ const cardScore = document.getElementById("card-score");
 
 //Global variables
 
+var platformHeight=20;
 
 //Global Functions
 
@@ -16,7 +17,7 @@ let arrayPlatforms = [];
 let presetTime = 1000;
 
 function startGame() {
-    player = new Player(150,350,50,"black");
+    player = new Player(150,350,50,"blue");
     presetTime = 1000;
 }
 
@@ -68,7 +69,7 @@ class Player {
     draw() {
         this.jump();
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x,this.y,this.size,this.size);
+        ctx.fillRect(this.x,this.y-platformHeight/2,this.size,this.size);
     }
 
     jump() {
@@ -128,8 +129,8 @@ class AvoidBlock {
 function drawBackgroundLine() {
     ctx.beginPath();
     ctx.moveTo(0,400);
-    ctx.lineTo(600,400);
-    ctx.lineWidth = 1.9;
+    ctx.lineTo(canvas.width,400);
+    ctx.lineWidth = platformHeight;
     ctx.strokeStyle = "black";
     ctx.stroke();
 }
