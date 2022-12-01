@@ -1,14 +1,8 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
-const card = document.getElementById("card");
-const cardScore = document.getElementById("card-score");
-
-//Global variables
-
 var platformHeight=20;
 
-//Global Functions
 
 let player = null;
 let arrayObstacles = [];
@@ -17,6 +11,7 @@ let enemySpeed = 5;
 
 function startGame() {
     player = new Player(150,350,50,"blue");
+    arrayObstacles = [];
 }
 
 function getRandomNumber(min,max){
@@ -46,7 +41,7 @@ class Player {
         this.size = size;
         this.color = color;
         this.jumpHeight = 12;
-        //These 3 are used for jump configuration
+
         this.shouldJump = false;
         this.jumpCounter = 0;
         this.jumpUp = true;
@@ -181,8 +176,6 @@ setTimeout(() => {
 
 //Restart game
 function restartGame(button) {
-    card.style.display = "none";
-    button.blur();
     startGame();
     requestAnimationFrame(animate);
 }
