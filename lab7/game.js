@@ -11,8 +11,10 @@ var platformHeight=20;
 //Global Functions
 
 let player = null;
-
+let arrayBlocks = [];
 let arrayPlatforms = [];
+
+let enemySpeed = 5;
 
 function startGame() {
     player = new Player(150,350,50,"blue");
@@ -117,8 +119,19 @@ class AvoidBlock {
     
 }
 
+function randomIntBetween(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
 
-function drawBackgroundLine() {
+function generateBlocks() {
+
+    let timeDelay = randomIntBetween(1,3);
+    arrayBlocks.push(new AvoidBlock(50, enemySpeed));
+
+    setTimeout(generateBlocks, timeDelay*1000);
+}
+
+function drawPlatform() {
     ctx.beginPath();
     //gradient
     var grd = ctx.createLinearGradient(0, 0, canvas.width, 0);
@@ -137,9 +150,24 @@ let animationId = null;
 function animate() {
     animationId = requestAnimationFrame(animate);
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    drawBackgroundLine();
-    //Foreground
+    drawPlatform();
+    //player
     player.draw();
+    //blocks
+    arrayBlocks.forEach((arrayBlock, index) => {
+        arrayBlock.slide();
+        
+        if(squaresColliding(player, arrayBlock)){
+            console.log("Dead");
+            cancelAnimationFrame(animationId);
+        }
+        
+        if((arrayBlock.x + arrayBlock.size) <= 0){
+            setTimeout(() => {
+                arrayBlocks.splice(index, 1);
+            }, 0)
+        }
+    });
 }
 
 startGame();
@@ -155,6 +183,10 @@ addEventListener("keydown", e => {
         }
     }
 });
+
+setTimeout(() => {
+    generateBlocks();
+}, randomIntBetween(1,3)*1000)
 
 //Restart game
 function restartGame(button) {
