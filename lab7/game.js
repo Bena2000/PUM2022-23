@@ -11,8 +11,7 @@ var platformHeight=20;
 //Global Functions
 
 let player = null;
-let arrayBlocks = [];
-let arrayPlatforms = [];
+let arrayObstacles = [];
 
 let enemySpeed = 5;
 
@@ -25,9 +24,9 @@ function getRandomNumber(min,max){
 }
 
 //Returns true of colliding
-function squaresColliding(player,block){
+function squaresColliding(player,obstacle){
     let s1 = Object.assign(Object.create(Object.getPrototypeOf(player)), player);
-    let s2 = Object.assign(Object.create(Object.getPrototypeOf(block)), block);
+    let s2 = Object.assign(Object.create(Object.getPrototypeOf(obstacle)), obstacle);
     //Don't need pixel perfect collision detection
     s2.size = s2.size - 10;
     s2.x = s2.x + 10;
@@ -37,14 +36,6 @@ function squaresColliding(player,block){
         s1.x+s1.size<s2.x || //R1 to the left of R2
         s1.y>s2.y+s2.size || //R1 is below R2
         s1.y+s1.size<s2.y //R1 is above R2
-    )
-}
-
-//Returns true if past player past block
-function isPastBlock(player, block){
-    return(
-        player.x + (player.size / 2) > block.x + (block.size / 4) && 
-        player.x + (player.size / 2) < block.x + (block.size / 4) * 3
     )
 }
 
@@ -65,7 +56,7 @@ class Player {
     draw() {
         this.jump();
         ctx.fillStyle = this.color;
-        ctx.fillRect(this.x,this.y-platformHeight/2,this.size,this.size);
+        ctx.fillRect(this.x,this.y,this.size,this.size);
     }
 
     jump() {
@@ -98,7 +89,7 @@ class Player {
 
 }
 
-class AvoidBlock {
+class AvoidObstacle {
     constructor(size, speed){
         this.x = canvas.width + size;
         this.y = 400 - size;
@@ -126,7 +117,7 @@ function randomIntBetween(min, max) {
 function generateBlocks() {
 
     let timeDelay = randomIntBetween(1,3);
-    arrayBlocks.push(new AvoidBlock(50, enemySpeed));
+    arrayObstacles.push(new AvoidObstacle(50, enemySpeed));
 
     setTimeout(generateBlocks, timeDelay*1000);
 }
@@ -154,7 +145,7 @@ function animate() {
     //player
     player.draw();
     //blocks
-    arrayBlocks.forEach((arrayBlock, index) => {
+    arrayObstacles.forEach((arrayBlock, index) => {
         arrayBlock.slide();
         
         if(squaresColliding(player, arrayBlock)){
@@ -164,7 +155,7 @@ function animate() {
         
         if((arrayBlock.x + arrayBlock.size) <= 0){
             setTimeout(() => {
-                arrayBlocks.splice(index, 1);
+                arrayObstacles.splice(index, 1);
             }, 0)
         }
     });
