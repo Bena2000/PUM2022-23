@@ -13,12 +13,9 @@ var platformHeight=20;
 let player = null;
 
 let arrayPlatforms = [];
-//Used for 'setInterval'
-let presetTime = 1000;
 
 function startGame() {
     player = new Player(150,350,50,"blue");
-    presetTime = 1000;
 }
 
 function getRandomNumber(min,max){
@@ -60,10 +57,7 @@ class Player {
         this.shouldJump = false;
         this.jumpCounter = 0;
         this.jumpUp = true;
-        //Related to spin animation
-        this.spin = 0;
-        //Get a perfect 90 degree rotation
-        this.spinIncrement = 90 / 32;
+        
     }
 
     draw() {
@@ -91,8 +85,6 @@ class Player {
         }    
     }
     
-
-
     counterRotation() {
         //This rotates the cube back to its origin so that it can be moved upwards properly
         let offsetXPosition = this.x + (this.size / 2);
@@ -128,10 +120,15 @@ class AvoidBlock {
 
 function drawBackgroundLine() {
     ctx.beginPath();
-    ctx.moveTo(0,400);
-    ctx.lineTo(canvas.width,400);
-    ctx.lineWidth = platformHeight;
-    ctx.strokeStyle = "black";
+    //gradient
+    var grd = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    grd.addColorStop(0, "red");
+    grd.addColorStop(1, "white");
+
+    ctx.rect(0, 400, canvas.width, platformHeight);
+    ctx.fillStyle=grd;
+    ctx.fill();
+    
     ctx.stroke();
 }
 
