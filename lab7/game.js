@@ -1,109 +1,168 @@
-var c = document.getElementById("circle");
-var ctxGradient = c.getContext("2d");
-//keyboard
-let rightPressed = false;
-let leftPressed = false;
-let spacePressed = false;
-//platform
-var platformHeight = 10;
-var platformWidth = 75;
-var platformX = (c.width-platformWidth)/2;
-var keyboardMoveSpeed=5;
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext('2d');
 
-let balls = [
-    [platformX+platformWidth/2, c.height-platformHeight]
-  ];
-var dx = 0;
-var dy = -5;
+const card = document.getElementById("card");
+const cardScore = document.getElementById("card-score");
 
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
+//Global variables
 
-function keyDownHandler(e) {
-    if(e.key == "Right" || e.key == "ArrowRight") {
-        rightPressed = true;
+
+//Global Functions
+
+let player = null;
+
+let arrayPlatforms = [];
+//Used for 'setInterval'
+let presetTime = 1000;
+
+function startGame() {
+    player = new Player(150,350,50,"black");
+    presetTime = 1000;
+}
+
+function getRandomNumber(min,max){
+    return Math.floor(Math.random() * (max - min + 1) ) + min;
+}
+
+//Returns true of colliding
+function squaresColliding(player,block){
+    let s1 = Object.assign(Object.create(Object.getPrototypeOf(player)), player);
+    let s2 = Object.assign(Object.create(Object.getPrototypeOf(block)), block);
+    //Don't need pixel perfect collision detection
+    s2.size = s2.size - 10;
+    s2.x = s2.x + 10;
+    s2.y = s2.y + 10;
+    return !(
+        s1.x>s2.x+s2.size || //R1 is to the right of R2
+        s1.x+s1.size<s2.x || //R1 to the left of R2
+        s1.y>s2.y+s2.size || //R1 is below R2
+        s1.y+s1.size<s2.y //R1 is above R2
+    )
+}
+
+//Returns true if past player past block
+function isPastBlock(player, block){
+    return(
+        player.x + (player.size / 2) > block.x + (block.size / 4) && 
+        player.x + (player.size / 2) < block.x + (block.size / 4) * 3
+    )
+}
+
+class Player {
+    constructor(x,y,size,color){
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.color = color;
+        this.jumpHeight = 12;
+        //These 3 are used for jump configuration
+        this.shouldJump = false;
+        this.jumpCounter = 0;
+        this.jumpUp = true;
+        //Related to spin animation
+        this.spin = 0;
+        //Get a perfect 90 degree rotation
+        this.spinIncrement = 90 / 32;
     }
-    else if(e.key == "Left" || e.key == "ArrowLeft") {
-        leftPressed = true;
-    }else if(e.key == " ")
-    {
-        if(spacePressed==false)
-        {
-            onSpaceClick();
+
+    draw() {
+        this.jump();
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x,this.y,this.size,this.size);
+    }
+
+    jump() {
+        if(this.shouldJump){
+            this.jumpCounter++;
+            if(this.jumpCounter < 15){
+                //Go up
+                this.y -= this.jumpHeight;
+            }else if(this.jumpCounter > 14 && this.jumpCounter < 19){
+                this.y += 0;
+            }else if(this.jumpCounter < 33){
+                //Come back down
+                this.y += this.jumpHeight;
+            }
+            //End the cycle
+            if(this.jumpCounter >= 32){
+                this.shouldJump = false;
+            }
+        }    
+    }
+    
+
+
+    counterRotation() {
+        //This rotates the cube back to its origin so that it can be moved upwards properly
+        let offsetXPosition = this.x + (this.size / 2);
+        let offsetYPosition = this.y + (this.size / 2);
+        ctx.translate(offsetXPosition,offsetYPosition);
+        ctx.rotate(-this.spin * Math.PI / 180 );
+        ctx.translate(-offsetXPosition,-offsetYPosition);
+    }
+
+}
+
+class AvoidBlock {
+    constructor(size, speed){
+        this.x = canvas.width + size;
+        this.y = 400 - size;
+        this.size = size;
+        this.color = "red";
+        this.slideSpeed = speed;
+    }
+
+    draw() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x,this.y,this.size,this.size);
+    }
+
+    slide() {
+        this.draw();
+        this.x -= this.slideSpeed;
+    }
+    
+}
+
+
+function drawBackgroundLine() {
+    ctx.beginPath();
+    ctx.moveTo(0,400);
+    ctx.lineTo(600,400);
+    ctx.lineWidth = 1.9;
+    ctx.strokeStyle = "black";
+    ctx.stroke();
+}
+
+
+let animationId = null;
+function animate() {
+    animationId = requestAnimationFrame(animate);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    drawBackgroundLine();
+    //Foreground
+    player.draw();
+}
+
+startGame();
+animate();
+
+
+//Event Listeners
+addEventListener("keydown", e => {
+    if(e.code === 'Space'){
+        if(!player.shouldJump){
+            player.jumpCounter = 0;
+            player.shouldJump = true;
         }
-        spacePressed=true;
     }
+});
+
+//Restart game
+function restartGame(button) {
+    card.style.display = "none";
+    button.blur();
+    startGame();
+    requestAnimationFrame(animate);
 }
 
-function onSpaceClick()
-{
-    console.log("shoot");
-    balls.push([platformX+platformWidth/2,c.height-platformHeight]);
-}
-
-function keyUpHandler(e) {
-    if(e.key == "Right" || e.key == "ArrowRight") {
-        rightPressed = false;
-    }
-    else if(e.key == "Left" || e.key == "ArrowLeft") {
-        leftPressed = false;
-    }else if(e.key == " ") {
-        spacePressed = false;
-    }
-}
-function drawBalls()
-{
-    for(var i = 0; i < balls.length; i++) {
-        drawBall(balls[i][0],balls[i][1]);
-    }
-}
-
-function drawBall(x,y) {
-    ctxGradient.beginPath();
-    ctxGradient.arc(x, y, 10, 0, Math.PI*2);
-    ctxGradient.fillStyle = "#0095DD";
-    ctxGradient.fill();
-    ctxGradient.closePath();
-}
-
-function drawPlayer() {
-    ctxGradient.beginPath();
-    ctxGradient.rect(platformX, c.height-platformHeight, platformWidth, platformHeight);
-    ctxGradient.fillStyle = "#0095DD";
-    ctxGradient.fill();
-    ctxGradient.closePath();
-}
-
-function moveBalls()
-{
-    let indexesToRemove=[];
-    for(var i = 0; i < balls.length; i++) {
-        balls[i][0]+=dx;
-        balls[i][1]+=dy;
-
-        if(balls[i][0]>c.width || balls[i][0]<0 || balls[i][1]<0)
-        {
-            indexesToRemove.push(i);
-        }
-    }
-    for(var i = 0; i < indexesToRemove.length; i++)
-    {
-        balls=balls.slice(i);
-    }
-}
-
-function draw() {
-    ctxGradient.clearRect(0, 0, c.width, c.height);
-    drawBalls();
-    drawPlayer();
-    moveBalls();
-
-    if(rightPressed)
-    {
-        platformX+=keyboardMoveSpeed;
-    }else if(leftPressed){
-        platformX-=keyboardMoveSpeed;
-    }
-}
-
-setInterval(draw, 10);
