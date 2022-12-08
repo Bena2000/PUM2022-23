@@ -120,17 +120,17 @@ function onClick(e) {
         if (ctx.isPointInPath(mouseX, mouseY)) {
             if(shape.color===-1)
             {
+                shape.color=playerRound>0?1:0;
                 const circle = {
                     center: {
                         x: shape.center.x,
                         y: shape.center.y
                     },
-                    color: playerRound>0?1:0
+                    color: shape.color
                 }
                 circles.push(circle);
-            }else{
+                playerRound = 1-playerRound;
             }
-            playerRound = 1-playerRound;
             // console.log(shape.center.x +" "+ shape.center.y);
         }
     }
