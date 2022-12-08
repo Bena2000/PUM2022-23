@@ -130,13 +130,7 @@ function onClick(e) {
                 circles.push(circle);
             }else{
             }
-            if(playerRound===0)
-            {
-                playerRound=1;
-            }else
-            {
-                playerRound=0
-            }
+            playerRound = 1-playerRound;
             // console.log(shape.center.x +" "+ shape.center.y);
         }
     }
