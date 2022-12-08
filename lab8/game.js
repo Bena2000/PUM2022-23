@@ -2,9 +2,13 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
 var mapCellSize=50;
+// 0 - black
+// 1 - white
+var playerRound=0;
 
 let map = null;
 let shapes=[];
+let circles=[];
 
 function startGame() {
     map = new Map(0,0,9,mapCellSize,"blue");
@@ -25,8 +29,8 @@ class Map {
             {
                 var mapButton = {
                     center: {
-                        x: cellSize*i,
-                        y: cellSize*j
+                        x: cellSize*(i+1),
+                        y: cellSize*(j+1)
                     },
                     color: -1
                 }
@@ -65,12 +69,26 @@ function randomIntBetween(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
+  function drawCircle(x,y,color) {
+    ctx.beginPath();
+    ctx.arc(x, y, mapCellSize/2, 0, Math.PI*2);
+    ctx.fillStyle = color>0?"#ffffff":"#000000";
+    ctx.fill();
+    ctx.closePath();
+}
+
 let animationId = null;
 function animate() {
     animationId = requestAnimationFrame(animate);
     ctx.clearRect(0,0,canvas.width,canvas.height);
     //player
     map.draw();
+
+    for (var i = 0; i < circles.length; i++)
+    {
+        var shape = circles[i];
+        drawCircle(shape.center.x,shape.center.y,shape.color);
+    }
     
 }
 
@@ -96,11 +114,28 @@ function onClick(e) {
         define(shape);
         // test if the mouse is in the current shape
         if (ctx.isPointInPath(mouseX, mouseY)) {
-            // if inside, display the shape's message
-            console.log(shape.center.x + shape.center.y);
+            if(shape.color===-1)
+            {
+                const circle = {
+                    center: {
+                        x: shape.center.x,
+                        y: shape.center.y
+                    },
+                    color: playerRound>0?1:0
+                }
+                circles.push(circle);
+            }else{
+            }
+            if(playerRound===0)
+            {
+                playerRound=1;
+            }else
+            {
+                playerRound=0
+            }
+            // console.log(shape.center.x +" "+ shape.center.y);
         }
     }
-    // console.log(mouseX+" "+mouseY);
 }
 
 canvas.addEventListener('click', onClick, false);
