@@ -58,16 +58,17 @@ animate();
 
 function onClick(e) {
     // e.preventDefault();
-    // mouseX = parseInt(e.clientX - offsetX);
-    // mouseY = parseInt(e.clientY - offsetY);
-    // for (var i = 0; i < rects.length; i++) {
-    //     var rect = rects[i];
-    //     if (hit(rect, mouseX, mouseY)) {
-    //         rect.isFilled = !rect.isFilled;
-    //     }
-    // }
-    // draw();
-    console.log(e.pageX+" "+e.pageY);
+    var element = canvas;
+    var offsetX = 0, offsetY = 0
+        if (element.offsetParent) {
+      do {
+        offsetX += element.offsetLeft;
+        offsetY += element.offsetTop;
+      } while ((element = element.offsetParent));
+    }
+    var mouseX = parseInt(e.pageX-offsetX);
+    var mouseY = parseInt(e.pageY- offsetY);
+    console.log(mouseX+" "+mouseY);
 }
 
 canvas.addEventListener('click', onClick, false);
