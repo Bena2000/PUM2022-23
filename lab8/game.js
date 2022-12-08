@@ -1,13 +1,13 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext('2d');
 
-var platformHeight=20;
+var mapCellSize=50;
 
 let map = null;
-let buttons=[];
+let shapes=[];
 
 function startGame() {
-    map = new Map(0,0,9,50,"blue");
+    map = new Map(0,0,9,mapCellSize,"blue");
 }
 
 class Map {
@@ -17,7 +17,15 @@ class Map {
         this.cellsCount = cellsCount;
         this.cellSize = cellSize;
         this.lineWidth = lineWidth;
-        this.color = color;        
+        this.color = color;
+
+        for(let i = 0; i < this.cellsCount; i++)
+        {
+            for(let j = 0; j < this.cellsCount; j++)
+            {
+                shapes.push([cellSize*i,cellSize*j]);
+            }
+        }
     }
     
     draw() {
@@ -38,6 +46,11 @@ class Map {
         ctx.lineWidth = lineWidth;
         ctx.stroke();
     }
+}
+
+function define(shape) {
+    ctx.beginPath();
+    ctx.arc(shape[0], shape[1],mapCellSize/2, 0, Math.PI*2);
 }
 
 function randomIntBetween(min, max) {
@@ -68,7 +81,18 @@ function onClick(e) {
     }
     var mouseX = parseInt(e.pageX-offsetX);
     var mouseY = parseInt(e.pageY- offsetY);
-    console.log(mouseX+" "+mouseY);
+
+    for (var i = 0; i < shapes.length; i++) {
+        var shape = shapes[i];
+        // define the current shape
+        define(shape);
+        // test if the mouse is in the current shape
+        if (ctx.isPointInPath(mouseX, mouseY)) {
+            // if inside, display the shape's message
+            console.log(shape[0] + shape[1]);
+        }
+    }
+    // console.log(mouseX+" "+mouseY);
 }
 
 canvas.addEventListener('click', onClick, false);
