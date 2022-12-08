@@ -11,6 +11,7 @@ let shapes=[];
 let circles=[];
 
 function startGame() {
+    canvas
     map = new Map(0,0,9,mapCellSize,"blue");
 }
 
@@ -40,6 +41,9 @@ class Map {
     }
     
     draw() {
+        ctx.fillStyle = "#d2a612";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
         let mapSizeXY = this.cellSize*this.cellsCount;
         for (let i = 0; i < this.cellsCount; i++) {
             //X
