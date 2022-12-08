@@ -23,7 +23,14 @@ class Map {
         {
             for(let j = 0; j < this.cellsCount; j++)
             {
-                shapes.push([cellSize*i,cellSize*j]);
+                var mapButton = {
+                    center: {
+                        x: cellSize*i,
+                        y: cellSize*j
+                    },
+                    color: -1
+                }
+                shapes.push(mapButton);
             }
         }
     }
@@ -49,8 +56,9 @@ class Map {
 }
 
 function define(shape) {
+    var center = shape.center;
     ctx.beginPath();
-    ctx.arc(shape[0], shape[1],mapCellSize/2, 0, Math.PI*2);
+    ctx.arc(center.x, center.y,mapCellSize/2, 0, Math.PI*2);
 }
 
 function randomIntBetween(min, max) {
@@ -89,7 +97,7 @@ function onClick(e) {
         // test if the mouse is in the current shape
         if (ctx.isPointInPath(mouseX, mouseY)) {
             // if inside, display the shape's message
-            console.log(shape[0] + shape[1]);
+            console.log(shape.center.x + shape.center.y);
         }
     }
     // console.log(mouseX+" "+mouseY);
